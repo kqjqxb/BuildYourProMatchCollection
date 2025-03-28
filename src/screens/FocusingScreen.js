@@ -399,7 +399,7 @@ const FocusingScreen = ({ selectedScreen }) => {
               Add Member to Team
             </Text>
           </TouchableOpacity>
-
+ 
           {selectedTeam.members.length > 0 && (
             selectedTeam.members.map((member, index) => (
               <Pressable key={member.id}
