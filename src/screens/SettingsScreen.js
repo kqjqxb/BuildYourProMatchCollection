@@ -21,12 +21,12 @@ const privAndTerBttns = [
     {
         id: 2,
         title: 'Privacy Policy',
-        link: 'https://www.termsfeed.com/live/c0dabc43-7705-4704-98bb-d14b6ec4be2a',
+        link: '',
     },
     {
         id: 1,
         title: 'Terms of Use',
-        link: 'https://www.termsfeed.com/live/8c6b9844-037b-45c7-8508-1cabd5f8aa9e',
+        link: '',
     },
 
 

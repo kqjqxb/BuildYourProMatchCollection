@@ -5,13 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from './src/screens/HomeScreen';
-import LaunshingScreen from './src/screens/LaunshingScreen';
+import OnboardingProMatchScreen from './src/screens/OnboardingProMatchScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { UserProvider, UserContext } from './src/context/UserContext';
 import { Provider, useDispatch } from 'react-redux';
 import store from './src/redux/store';
 import { loadUserData } from './src/redux/userSlice';
+import LoadingProScreen from './src/screens/LoadingProScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -32,54 +33,60 @@ const CopenhagenStack = () => {
 
 const AppNavigator = () => {
   const dispatch = useDispatch();
-  const [isOnboardWasVisible, setIsOnboardWasVisible] = useState(false);
+  const [isProMatchOnbVisible, setProMatchOnbVisible] = useState(false);
   const { user, setUser } = useContext(UserContext);
 
-
-  const [initializingCrovvnApp, setInitializingCrovvnApp] = useState(true);
+  const [initializingProMatchApp, setInitializingNeshineNevsehirApp] = useState(true);
 
   useEffect(() => {
     dispatch(loadUserData());
   }, [dispatch]);
 
   useEffect(() => {
-    const loadCopenhagenUser = async () => {
+    const loadProMatchUser = async () => {
       try {
         const deviceId = await DeviceInfo.getUniqueId();
         const storageKey = `currentUser_${deviceId}`;
-        const storedCrovvnUser = await AsyncStorage.getItem(storageKey);
-        
+        const storedProMatchUser = await AsyncStorage.getItem(storageKey);
+        const isProMatchOnbVisible = await AsyncStorage.getItem('isProMatchOnbVisible');
 
-        if (storedCrovvnUser) {
-          setUser(JSON.parse(storedCrovvnUser));
-        } 
+        if (storedProMatchUser) {
+          setUser(JSON.parse(storedProMatchUser));
+          setProMatchOnbVisible(false);
+        } else if (isProMatchOnbVisible) {
+          setProMatchOnbVisible(false);
+        } else {
+          setProMatchOnbVisible(true);
+          await AsyncStorage.setItem('isProMatchOnbVisible', 'true');
+        }
       } catch (error) {
-        console.error('Error loading of cur user', error);
+        console.error('Error loading of promatch user', error);
       } finally {
-        setInitializingCrovvnApp(false);
+        setInitializingNeshineNevsehirApp(false);
       }
     };
-    loadCopenhagenUser();
+    loadProMatchUser();
   }, [setUser]);
 
-  if (initializingCrovvnApp) {
+  if (initializingProMatchApp) {
     return (
       <View style={{
-        backgroundColor: '#000000',
+        justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        justifyContent: 'center',
+        backgroundColor: '#2F2E31',
       }}>
-        <ActivityIndicator size="large" color="white" />
+        <ActivityIndicator size="large" color="#CCA65A" />
       </View>
     );
   }
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName={'launshingScreen'}>
+        <Stack.Navigator initialRouteName={isProMatchOnbVisible ? 'OnboardingProMatchScreen' : 'LoadingProScreen'}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="launshingScreen" component={LaunshingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="OnboardingProMatchScreen" component={OnboardingProMatchScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="LoadingProScreen" component={LoadingProScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     </NavigationContainer>
   );

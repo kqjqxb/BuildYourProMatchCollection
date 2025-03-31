@@ -521,6 +521,7 @@ const HomeScreen = () => {
           ) : (
             <ScrollView showsVerticalScrollIndicator={false} style={{
               alignSelf: 'center',
+              height: dimensions.height * 0.7,
             }}
               contentContainerStyle={{
                 paddingBottom: dimensions.height * 0.15,
