@@ -8,9 +8,9 @@ const fontInterRegular = 'Inter18pt-Regular';
 const OnboardingProMatchScreen = () => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const navigation = useNavigation();
-  const [currentNeshineSlideIndex, setCurrentSlideIndex] = useState(0);
-  const scrollX = useRef(new Animated.Value(0)).current;
-  const slidesRef = useRef(null);
+  const [currentProMatchSlideIndex, setCurrentProMatchSlideIndex] = useState(0);
+  const proMatchScrollX = useRef(new Animated.Value(0)).current;
+  const proSlidesMatchRef = useRef(null);
 
   useEffect(() => {
     const onChange = ({ window }) => {
@@ -22,88 +22,93 @@ const OnboardingProMatchScreen = () => {
     };
   }, []);
 
-  const viewableItemsChanged = useRef(({ viewableItems }) => {
+  const viewableProMatchItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems && viewableItems.length > 0) {
-      setCurrentSlideIndex(viewableItems[0].index);
+      setCurrentProMatchSlideIndex(viewableItems[0].index);
     }
   }).current;
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
-  const scrollToTheNextNeshineSlide = () => {
-    if (currentNeshineSlideIndex < proOnboardingMatchData.length - 1) {
-      slidesRef.current.scrollToIndex({ index: currentNeshineSlideIndex + 1 });
+  const scrollToTheNextProMatchSlide = () => {
+    if (currentProMatchSlideIndex < proOnboardingMatchData.length - 1) {
+      proSlidesMatchRef.current.scrollToIndex({ index: currentProMatchSlideIndex + 1 });
     } else {
       navigation.replace('Home');
     }
   };
 
-  const renderNeshineItem = ({ item }) => (
-    <View style={{ width: dimensions.width, flex: 1, justifyContent: 'space-between', alignItems: 'center' }} >
+  const renderProMatchItem = ({ item }) => (
+    <View style={{
+      justifyContent: 'space-between',
+      flex: 1,
+      width: dimensions.width,
+      alignItems: 'center',
+    }}>
       <View style={{
-        justifyContent: 'center',
+        width: dimensions.width,
         height: dimensions.height * 0.5,
         alignItems: 'center',
         alignSelf: 'center',
-        width: dimensions.width,
+        justifyContent: 'center',
       }}>
         <Image
           resizeMode="cover"
           source={item.image}
           style={{
-            height: dimensions.height,
+            width: dimensions.width,
             zIndex: 0,
             position: 'absolute',
             top: 0,
-            width: dimensions.width,
+            height: dimensions.height,
           }}
         />
       </View>
 
       <View style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        height: dimensions.height,
         position: 'absolute',
         zIndex: 1,
         width: dimensions.width,
-        height: dimensions.height,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
       }}>
       </View>
 
       <View style={{
-        zIndex: 2,
         position: 'absolute',
+        zIndex: 2,
+        width: dimensions.width,
         height: dimensions.height * 0.369,
         bottom: 0,
         alignSelf: 'center',
-        alignSelf: 'center',
         alignItems: 'center',
         paddingHorizontal: dimensions.width * 0.04,
-        width: dimensions.width,
+        alignSelf: 'center',
       }}>
         <Text
           style={{
-            fontStyle: 'italic',
+            marginTop: dimensions.height * 0.03,
             maxWidth: dimensions.width * 0.8,
-            alignSelf: 'flex-start',
+            fontWeight: 500,
             fontSize: dimensions.width * 0.064,
             fontFamily: fontInterRegular,
-            fontWeight: 500,
+            fontStyle: 'italic',
             color: 'white',
             textAlign: 'left',
-            marginTop: dimensions.height * 0.03,
+            alignSelf: 'flex-start',
           }}>
           {item.title}
         </Text>
         <Text
           style={{
-            fontWeight: 400,
+            fontFamily: fontInterRegular,
             color: 'white',
             alignSelf: 'flex-start',
-            maxWidth: dimensions.width * 0.8,
-            marginTop: dimensions.height * 0.01,
             textAlign: 'left',
+            marginTop: dimensions.height * 0.01,
+            fontWeight: 400,
             fontSize: dimensions.width * 0.043,
-            fontFamily: fontInterRegular,
+            maxWidth: dimensions.width * 0.8,
           }}>
           {item.description}
         </Text>
@@ -113,54 +118,59 @@ const OnboardingProMatchScreen = () => {
 
   return (
     <View
-      style={{ justifyContent: 'space-between', flex: 1, backgroundColor: '#121212', alignItems: 'center', }}
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
+        backgroundColor: '#121212',
+        alignItems: 'center',
+      }}
     >
       <View style={{ display: 'flex' }}>
         <FlatList
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderNeshineItem}
-          data={proOnboardingMatchData}
           bounces={false}
+          data={proOnboardingMatchData}
+          keyExtractor={(item) => item.id.toString()}
+          ref={proSlidesMatchRef}
+          viewabilityConfig={viewConfig}
           showsHorizontalScrollIndicator={false}
           pagingEnabled
           horizontal
-          onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: proMatchScrollX } } }], {
             useNativeDriver: false,
           })}
           scrollEventThrottle={32}
-          viewabilityConfig={viewConfig}
-          onViewableItemsChanged={viewableItemsChanged}
-          ref={slidesRef}
+          onViewableItemsChanged={viewableProMatchItemsChanged}
+          renderItem={renderProMatchItem}
         />
       </View>
 
       <TouchableOpacity
         onPress={() => {
-          if (currentNeshineSlideIndex === proOnboardingMatchData.length - 1) {
-            navigation.navigate('Home');
-          } else scrollToTheNextNeshineSlide();
+          if (currentProMatchSlideIndex === proOnboardingMatchData.length - 1) {
+            navigation.replace('LoadingProScreen');
+          } else scrollToTheNextProMatchSlide();
         }}
         style={{
-          zIndex: 2,
-          borderRadius: dimensions.width * 0.7,
+          backgroundColor: '#EDE72F',
+          bottom: dimensions.height * 0.1,
           height: dimensions.height * 0.055,
           alignSelf: 'center',
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#EDE72F',
+          borderRadius: dimensions.width * 0.7,
           width: dimensions.width * 0.89,
-          bottom: dimensions.height * 0.1,
+          zIndex: 2,
         }}
       >
         <Text
           style={{
-            fontWeight: 400,
+            fontSize: dimensions.width * 0.045,
             fontFamily: fontInterRegular,
             color: 'black',
             textAlign: 'center',
-            fontSize: dimensions.width * 0.045,
+            fontWeight: 400,
           }}>
-          {currentNeshineSlideIndex === proOnboardingMatchData.length - 1 ? 'Get Started' : 'Next'}
+          {currentProMatchSlideIndex === proOnboardingMatchData.length - 1 ? 'Get Started' : 'Next'}
         </Text>
       </TouchableOpacity>
     </View>

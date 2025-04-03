@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const promatchLink = 'https://google.com';
+const promatchLink = 'https://apps.apple.com/us/app/build-your-promatch-collection/id6744167006';
 
 const fontInterRegular = 'Inter18pt-Regular';
 
@@ -21,12 +21,12 @@ const privAndTerBttns = [
     {
         id: 2,
         title: 'Privacy Policy',
-        link: '',
+        link: 'https://www.termsfeed.com/live/21059ef8-45c9-4bc2-a75b-986ff9a33fce',
     },
     {
         id: 1,
         title: 'Terms of Use',
-        link: '',
+        link: 'https://www.termsfeed.com/live/0ca86bc9-e9e7-4a16-a9c5-40a6a5d3c845',
     },
 
 

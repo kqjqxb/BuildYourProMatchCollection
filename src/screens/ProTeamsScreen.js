@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 const fontInterRegular = 'Inter18pt-Regular';
 
-const FocusingScreen = ({ selectedScreen }) => {
+const ProTeamsScreen = ({ selectedScreen }) => {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const [searchText, setSearchText] = useState('');
   const [teamName, setTeamName] = useState('');
@@ -981,4 +981,4 @@ const FocusingScreen = ({ selectedScreen }) => {
   );
 };
 
-export default FocusingScreen;
+export default ProTeamsScreen;

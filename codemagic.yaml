@@ -9,10 +9,10 @@ workflows:
       vars:
         XCODE_WORKSPACE: "BuildYourProMatchCollection.xcworkspace" # <----
         XCODE_SCHEME: "BuildYourProMatchCollection" # <----
-        BUNDLE_ID: "com.build.your.proMatch.collection.app" # <----
-        APP_STORE_APP_ID: 6742072863 # <----
-        APP_STORE_CONNECT_KEY_ID: "K855U32N4W" # <----
-        APP_STORE_CONNECT_ISSUER_ID: "74d1942f-88b3-472d-89ff-735677e603f5" # <----
+        BUNDLE_ID: "com.build.yourpromatch.collection.app" # <----
+        APP_STORE_APP_ID: 6744167006 # <----
+        APP_STORE_CONNECT_KEY_ID: "QBZNB5HCL9" # <----
+        APP_STORE_CONNECT_ISSUER_ID: "4be61f89-cef9-4f04-8946-2453df667248" # <----
         node: latest
         xcode: latest
         cocoapods: default
@@ -60,7 +60,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - kama_kowka15@op.pl       # <----
+          - kmaciej824@gmail.com       # <----
         notify:
           success: true
           failure: false

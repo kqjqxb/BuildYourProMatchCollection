@@ -74,16 +74,16 @@ const AppNavigator = () => {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: '#2F2E31',
+        backgroundColor: '#000000',
       }}>
-        <ActivityIndicator size="large" color="#CCA65A" />
+        <ActivityIndicator size="large" color="#EDE72F" />
       </View>
     );
   }
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName={isProMatchOnbVisible ? 'OnboardingProMatchScreen' : 'LoadingProScreen'}>
+        <Stack.Navigator initialRouteName={isProMatchOnbVisible ? 'OnboardingProMatchScreen' : 'OnboardingProMatchScreen'}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="OnboardingProMatchScreen" component={OnboardingProMatchScreen} options={{ headerShown: false }} />
           <Stack.Screen name="LoadingProScreen" component={LoadingProScreen} options={{ headerShown: false }} />

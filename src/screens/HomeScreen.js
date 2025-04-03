@@ -16,11 +16,8 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-import FocusingScreen from './FocusingScreen';
-import ProjectDetailsScreen from './ProjectDetailsScreen';
+import ProTeamsScreen from './ProTeamsScreen';
 import SettingsScreen from './SettingsScreen';
-
-import AnalysisScreen from './AnalysisScreen';
 
 
 const homePagesButtons = [
@@ -37,14 +34,13 @@ const HomeScreen = () => {
   const [selectedScreen, setSelectedScreen] = useState('Home');
 
   const [selectedProjectCategory, setSelectedProjectCategory] = useState('Schedule');
-  const [selectedProject, setSelectedProject] = useState(null);
 
   const [isAddindTaskVisible, setAddindTaskVisible] = useState(false);
   const [isToDoVisible, setToDoVisible] = useState(false);
   const [isCalendarVisible, setCalendarVisible] = useState(false);
   const [date, setDate] = useState(new Date());
   const [today, setToday] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedProMatchDate, setSelectedProMatchDate] = useState(new Date());
 
   const [title, setTitle] = useState('');
   const [toDoTaskTitle, setToDoTaskTitle] = useState('');
@@ -116,7 +112,7 @@ const HomeScreen = () => {
         title,
         time,
         duration,
-        date: selectedDate,
+        date: selectedProMatchDate,
         status: 'pending',
       };
 
@@ -197,7 +193,7 @@ const HomeScreen = () => {
 
   const handleProMatchDateChange = (event, selectedProDate) => {
     if (selectedProDate && selectedProDate >= new Date().setHours(0, 0, 0, 0)) {
-      setSelectedDate(selectedProDate);
+      setSelectedProMatchDate(selectedProDate);
       setCalendarVisible(false);
       setAddindTaskVisible(true);
     }
@@ -225,7 +221,7 @@ const HomeScreen = () => {
   const filteredSortedTasks = proMatchTasks
     .filter((task) => {
       const taskDate = new Date(task.date);
-      return taskDate.toDateString() === selectedDate.toDateString();
+      return taskDate.toDateString() === selectedProMatchDate.toDateString();
     })
     .sort((a, b) => {
       if (a.status === b.status) return 0;
@@ -261,21 +257,21 @@ const HomeScreen = () => {
           height: dimensions.height * 0.9,
         }}>
           <View style={{
+            marginTop: dimensions.height * 0.021,
             justifyContent: 'space-between',
             flexDirection: 'row',
-            width: dimensions.width * 0.93,
             alignSelf: 'center',
-            marginTop: dimensions.height * 0.021,
+            width: dimensions.width * 0.93,
           }}>
             {['Schedule', 'To-Do List',].map((category) => (
               <TouchableOpacity
                 key={category}
                 style={{
-                  paddingVertical: dimensions.height * 0.016,
-                  width: dimensions.width * 0.4444,
-                  alignItems: 'center',
-                  borderRadius: dimensions.width * 0.4,
                   backgroundColor: selectedProjectCategory === category ? '#EDE72F' : '#343434',
+                  width: dimensions.width * 0.4444,
+                  borderRadius: dimensions.width * 0.4,
+                  alignItems: 'center',
+                  paddingVertical: dimensions.height * 0.016,
                 }}
                 onPress={() => {
                   setSelectedProjectCategory(`${category}`);
@@ -295,17 +291,16 @@ const HomeScreen = () => {
             ))}
           </View>
 
-
           <Text style={{
             textAlign: 'center',
+            marginTop: dimensions.height * 0.04,
+            alignSelf: 'center',
             fontFamily: fontInterRegular,
-            fontWeight: 450,
             fontSize: dimensions.width * 0.08,
             alignItems: 'center',
-            alignSelf: 'center',
+            fontWeight: 450,
             color: 'white',
             fontStyle: 'italic',
-            marginTop: dimensions.height * 0.04,
           }}
           >
             {selectedProjectCategory === 'Schedule' ? 'Schedule' : 'Tasks'}
@@ -320,35 +315,35 @@ const HomeScreen = () => {
               }}
             >
               <View style={{
-                width: dimensions.width * 0.89,
+                marginTop: dimensions.height * 0.03,
                 alignSelf: 'center',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                width: dimensions.width * 0.89,
                 alignItems: 'center',
-                marginTop: dimensions.height * 0.03,
               }}>
                 <View style={{
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
                   <Text style={{
-                    textAlign: 'left',
-                    alignSelf: 'flex-start',
-                    fontFamily: fontInterRegular,
-                    fontWeight: 300,
-                    fontSize: dimensions.width * 0.04,
                     color: 'white',
+                    alignSelf: 'flex-start',
+                    fontWeight: 300,
+                    fontFamily: fontInterRegular,
+                    textAlign: 'left',
+                    fontSize: dimensions.width * 0.04,
                   }}
                   >
                     Today
                   </Text>
                   <Text style={{
-                    textAlign: 'left',
-                    fontFamily: fontInterRegular,
+                    alignSelf: 'flex-start',
                     fontWeight: 500,
                     fontSize: dimensions.width * 0.05,
                     color: 'white',
-                    alignSelf: 'flex-start',
+                    textAlign: 'left',
+                    fontFamily: fontInterRegular,
                     marginTop: dimensions.height * 0.003,
                   }}
                   >
@@ -377,27 +372,27 @@ const HomeScreen = () => {
 
               {isToDoVisible && (
                 <View style={{
-                  width: dimensions.width * 0.89,
+                  paddingVertical: dimensions.height * 0.022,
                   alignSelf: 'center',
+                  paddingHorizontal: dimensions.width * 0.03,
                   marginTop: dimensions.height * 0.03,
                   backgroundColor: '#343434',
                   borderRadius: dimensions.width * 0.0444,
-                  paddingHorizontal: dimensions.width * 0.03,
-                  paddingVertical: dimensions.height * 0.022,
+                  width: dimensions.width * 0.89,
                 }}>
                   <TextInput
                     placeholder="Task title"
                     placeholderTextColor="#ffffff50"
                     style={{
-                      fontFamily: fontInterRegular,
+                      textAlign: 'left',
                       backgroundColor: '#454545',
-                      borderRadius: dimensions.width * 0.07,
+                      fontSize: dimensions.width * 0.04,
                       paddingHorizontal: dimensions.width * 0.042,
                       fontWeight: 500,
-                      fontSize: dimensions.width * 0.04,
+                      fontFamily: fontInterRegular,
                       color: 'white',
                       height: dimensions.height * 0.06,
-                      textAlign: 'left',
+                      borderRadius: dimensions.width * 0.07,
                     }}
                     value={toDoTaskTitle}
                     onChangeText={setToDoTaskTitle}
@@ -410,22 +405,22 @@ const HomeScreen = () => {
                       setToDoTaskTitle(false);
                     }}
                     style={{
-                      width: dimensions.width * 0.83,
+                      marginTop: dimensions.height * 0.02,
                       height: dimensions.height * 0.054,
-                      alignSelf: 'center',
+                      alignItems: 'center',
                       backgroundColor: toDoTaskTitle.length === 0 ? '#A1A1A1' : '#EDE72F',
                       borderRadius: dimensions.width * 0.7,
-                      alignItems: 'center',
+                      width: dimensions.width * 0.83,
                       justifyContent: 'center',
-                      marginTop: dimensions.height * 0.02,
+                      alignSelf: 'center',
                     }}>
                     <Text style={{
                       textAlign: 'center',
+                      alignSelf: 'center',
                       fontFamily: fontInterRegular,
                       fontWeight: 400,
                       fontSize: dimensions.width * 0.045,
                       alignItems: 'center',
-                      alignSelf: 'center',
                       color: '#000',
                     }}
                     >
@@ -444,13 +439,13 @@ const HomeScreen = () => {
                   {sortedDates.map(dateKey => (
                     <View key={dateKey}>
                       <Text style={{
-                        textAlign: 'left',
+                        marginTop: dimensions.height * 0.03,
                         fontFamily: fontInterRegular,
                         fontWeight: 500,
                         fontSize: dimensions.width * 0.05,
                         color: 'white',
-                        marginTop: dimensions.height * 0.03,
                         marginBottom: dimensions.height * 0.01,
+                        textAlign: 'left',
                       }}>
                         {dateKey}
                       </Text>
@@ -461,16 +456,16 @@ const HomeScreen = () => {
                           setTypeOfDeliting('toDo');
                         }}
                           style={{
-                            backgroundColor: '#343434',
+                            flexDirection: 'row',
                             width: dimensions.width * 0.89,
                             height: dimensions.height * 0.068,
-                            borderRadius: dimensions.width * 0.7,
+                            justifyContent: 'flex-start',
                             paddingHorizontal: dimensions.width * 0.045,
                             alignItems: 'center',
-                            justifyContent: 'flex-start',
+                            backgroundColor: '#343434',
                             alignSelf: 'center',
                             marginBottom: dimensions.height * 0.013,
-                            flexDirection: 'row',
+                            borderRadius: dimensions.width * 0.7,
                           }}>
                           <TouchableOpacity onPress={() => {
                             const updatedTasks = proMatchToDoTasks.map((t) => {
@@ -496,15 +491,15 @@ const HomeScreen = () => {
                           </TouchableOpacity>
 
                           <Text style={{
-                            textAlign: 'left',
                             fontFamily: fontInterRegular,
-                            fontWeight: 400,
-                            fontSize: dimensions.width * 0.047,
-                            color: task.status === 'pending' ? 'white' : '#EDE72F',
                             maxWidth: dimensions.width * 0.78,
-                            flex: 1,
+                            fontWeight: 400,
                             textDecorationLine: task.status === 'done' ? 'line-through' : 'none',
+                            fontSize: dimensions.width * 0.047,
+                            flex: 1,
+                            textAlign: 'left',
                             marginLeft: dimensions.width * 0.03,
+                            color: task.status === 'pending' ? 'white' : '#EDE72F',
                           }}
                             numberOfLines={1}
                             ellipsizeMode='tail'
@@ -528,17 +523,17 @@ const HomeScreen = () => {
               }}
             >
               <View style={{
-                width: dimensions.width * 0.89,
-                alignSelf: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
                 marginTop: dimensions.height * 0.03,
+                alignSelf: 'center',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                width: dimensions.width * 0.89,
+                alignItems: 'center',
               }}>
                 <View style={{
+                  alignItems: 'center',
                   flexDirection: 'row',
                   justifyContent: 'center',
-                  alignItems: 'center',
                 }}>
                   <TouchableOpacity
                     onPress={() => {
@@ -557,13 +552,13 @@ const HomeScreen = () => {
                   </TouchableOpacity>
 
                   <Text style={{
-                    textAlign: 'center',
-                    fontFamily: fontInterRegular,
+                    color: 'white',
                     fontWeight: 500,
                     fontSize: dimensions.width * 0.05,
                     alignItems: 'center',
+                    fontFamily: fontInterRegular,
                     alignSelf: 'center',
-                    color: 'white',
+                    textAlign: 'center',
                   }}
                   >
                     Today
@@ -591,11 +586,11 @@ const HomeScreen = () => {
 
               {isCalendarVisible && (
                 <View style={{
-                  width: dimensions.width * 0.89,
-                  alignSelf: 'center',
-                  marginTop: dimensions.height * 0.02,
-                  backgroundColor: '#343434',
                   borderRadius: dimensions.width * 0.0444,
+                  alignSelf: 'center',
+                  backgroundColor: '#343434',
+                  marginTop: dimensions.height * 0.02,
+                  width: dimensions.width * 0.89,
                 }}>
                   <DateTimePicker
                     value={date || new Date()}
@@ -621,49 +616,49 @@ const HomeScreen = () => {
               )}
 
               <View style={{
-                width: dimensions.width * 0.89,
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 alignSelf: 'center',
                 marginTop: dimensions.height * 0.02,
                 flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                width: dimensions.width * 0.89,
               }}>
                 {proMatchDaysToRender.map((day, index) => {
-                  const isProMatchSelected = day.getDate() === selectedDate.getDate() &&
-                    day.getMonth() === selectedDate.getMonth() &&
-                    day.getFullYear() === selectedDate.getFullYear();
+                  const isProMatchSelected = day.getDate() === selectedProMatchDate.getDate() &&
+                    day.getMonth() === selectedProMatchDate.getMonth() &&
+                    day.getFullYear() === selectedProMatchDate.getFullYear();
                   return (
                     <TouchableOpacity
                       key={index}
                       onPress={() => {
-                        setSelectedDate(day);
+                        setSelectedProMatchDate(day);
                         setCalendarVisible(false);
                         setAddindTaskVisible(false);
                       }}
                       style={{
-                        width: dimensions.width * 0.16,
-                        height: dimensions.width * 0.16,
-                        borderRadius: dimensions.width * 0.7,
                         backgroundColor: isProMatchSelected ? '#EDE72F' : '#343434',
-                        alignItems: 'center',
+                        height: dimensions.width * 0.16,
                         justifyContent: 'center',
+                        borderRadius: dimensions.width * 0.7,
+                        alignItems: 'center',
+                        width: dimensions.width * 0.16,
                       }}>
                       <Text style={{
                         textAlign: 'center',
-                        fontFamily: fontInterRegular,
+                        color: isProMatchSelected ? 'black' : 'white',
                         fontWeight: '500',
                         fontSize: dimensions.width * 0.04,
-                        color: isProMatchSelected ? 'black' : 'white',
+                        fontFamily: fontInterRegular,
                       }}>
                         {day.getDate()}
                       </Text>
                       <Text style={{
-                        textAlign: 'center',
+                        marginTop: dimensions.height * 0.003,
                         fontFamily: fontInterRegular,
                         fontWeight: '500',
-                        fontSize: dimensions.width * 0.03,
-                        marginTop: dimensions.height * 0.003,
+                        textAlign: 'center',
                         color: isProMatchSelected ? 'black' : 'white',
+                        fontSize: dimensions.width * 0.03,
                       }}>
                         {day.toLocaleDateString('en-US', { weekday: 'short' })}
                       </Text>
@@ -685,14 +680,14 @@ const HomeScreen = () => {
                       setTypeOfDeliting('task');
                     }}
                       style={{
-                        backgroundColor: '#343434',
+                        paddingVertical: dimensions.height * 0.015,
                         width: dimensions.width * 0.89,
+                        marginBottom: dimensions.height * 0.013,
                         height: dimensions.height * 0.08,
                         borderRadius: dimensions.width * 0.7,
                         paddingHorizontal: dimensions.width * 0.045,
-                        paddingVertical: dimensions.height * 0.015,
                         alignSelf: 'center',
-                        marginBottom: dimensions.height * 0.013,
+                        backgroundColor: '#343434',
                       }}>
                       <View style={{
                         flexDirection: 'row',
@@ -741,8 +736,8 @@ const HomeScreen = () => {
                                 fontSize: dimensions.width * 0.047,
                                 color: task.status === 'pending' ? 'white' : '#EDE72F',
                                 maxWidth: dimensions.width * 0.43,
-                                flex: 1,
                                 textDecorationLine: task.status === 'done' ? 'line-through' : 'none',
+                                flex: 1,
                               }}
                                 numberOfLines={1}
                                 ellipsizeMode='tail'
@@ -752,11 +747,11 @@ const HomeScreen = () => {
 
                               <Text style={{
                                 textAlign: 'right',
-                                fontFamily: fontInterRegular,
+                                textDecorationLine: task.status === 'done' ? 'line-through' : 'none',
                                 fontWeight: 400,
                                 fontSize: dimensions.width * 0.04,
                                 color: task.status === 'pending' ? 'white' : '#EDE72F',
-                                textDecorationLine: task.status === 'done' ? 'line-through' : 'none',
+                                fontFamily: fontInterRegular,
                                 maxWidth: dimensions.width * 0.5,
                                 flex: 1,
                               }}>
@@ -785,26 +780,26 @@ const HomeScreen = () => {
 
               {isAddindTaskVisible && (
                 <View style={{
-                  width: dimensions.width * 0.89,
+                  paddingHorizontal: dimensions.width * 0.03,
                   alignSelf: 'center',
                   marginTop: dimensions.height * 0.03,
+                  paddingVertical: dimensions.height * 0.022,
                   backgroundColor: '#343434',
                   borderRadius: dimensions.width * 0.0444,
-                  paddingHorizontal: dimensions.width * 0.03,
-                  paddingVertical: dimensions.height * 0.022,
+                  width: dimensions.width * 0.89,
                 }}>
                   <TextInput
                     placeholder="Task Title"
                     placeholderTextColor="#ffffff50"
                     style={{
-                      fontFamily: fontInterRegular,
+                      color: 'white',
                       backgroundColor: '#454545',
                       borderRadius: dimensions.width * 0.07,
                       paddingHorizontal: dimensions.width * 0.042,
+                      height: dimensions.height * 0.06,
                       fontWeight: 500,
                       fontSize: dimensions.width * 0.04,
-                      color: 'white',
-                      height: dimensions.height * 0.06,
+                      fontFamily: fontInterRegular,
                       textAlign: 'left',
                     }}
                     value={title}
@@ -812,28 +807,29 @@ const HomeScreen = () => {
                   />
 
                   <View style={{
-                    marginTop: dimensions.height * 0.02,
+                    borderRadius: dimensions.width * 0.07,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     paddingHorizontal: dimensions.width * 0.042,
                     height: dimensions.height * 0.06,
                     backgroundColor: '#454545',
-                    borderRadius: dimensions.width * 0.07,
+                    marginTop: dimensions.height * 0.02,
                   }}>
                     <TextInput
-                      placeholder="Time"
+                      placeholder="Time (hh:mm)"
                       placeholderTextColor="#ffffff50"
+                      keyboardType='numeric'
                       style={{
-                        fontFamily: fontInterRegular,
+                        textAlign: 'left',
                         backgroundColor: 'transparent',
                         fontWeight: 500,
                         fontSize: dimensions.width * 0.04,
                         color: 'white',
                         height: dimensions.height * 0.055,
                         alignItems: 'center',
+                        fontFamily: fontInterRegular,
                         justifyContent: 'center',
-                        textAlign: 'left',
                         maxWidth: dimensions.width * 0.66,
                       }}
                       value={time}
@@ -851,44 +847,45 @@ const HomeScreen = () => {
                   </View>
 
                   <View style={{
-                    marginTop: dimensions.height * 0.02,
+                    borderRadius: dimensions.width * 0.07,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    paddingHorizontal: dimensions.width * 0.042,
                     height: dimensions.height * 0.06,
+                    
+                    paddingHorizontal: dimensions.width * 0.042,
+                    marginTop: dimensions.height * 0.02,
                     backgroundColor: '#454545',
-                    borderRadius: dimensions.width * 0.07,
                   }}>
                     <TextInput
+                      placeholderTextColor="#ffffff50"
                       keyboardType='numeric'
                       maxLength={3}
                       placeholder="Duration"
-                      placeholderTextColor="#ffffff50"
                       style={{
-                        fontFamily: fontInterRegular,
-                        backgroundColor: 'transparent',
-                        fontWeight: 500,
-                        fontSize: dimensions.width * 0.04,
+                        maxWidth: dimensions.width * 0.63,
+                        textAlign: 'left',
                         color: 'white',
+                        backgroundColor: 'transparent',
+                        fontSize: dimensions.width * 0.04,
+                        fontWeight: 500,
                         height: dimensions.height * 0.055,
+                        fontFamily: fontInterRegular,
                         alignItems: 'center',
                         justifyContent: 'center',
-                        textAlign: 'left',
-                        maxWidth: dimensions.width * 0.63,
                       }}
                       value={duration}
                       onChangeText={setDuration}
                     />
 
                     <Text style={{
-                      textAlign: 'center',
+                      color: 'white',
                       fontFamily: fontInterRegular,
                       fontWeight: 500,
                       fontSize: dimensions.width * 0.045,
                       alignItems: 'center',
+                      textAlign: 'center',
                       alignSelf: 'center',
-                      color: 'white',
                     }}
                     >
                       min
@@ -902,13 +899,13 @@ const HomeScreen = () => {
                       setAddindTaskVisible(false);
                     }}
                     style={{
-                      width: dimensions.width * 0.83,
+                      justifyContent: 'center',
                       height: dimensions.height * 0.054,
                       alignSelf: 'center',
-                      backgroundColor: title === '' || time === '' || duration === '' || time.length < 5 ? '#A1A1A1' : '#EDE72F',
+                      width: dimensions.width * 0.83,
                       borderRadius: dimensions.width * 0.7,
                       alignItems: 'center',
-                      justifyContent: 'center',
+                      backgroundColor: title === '' || time === '' || duration === '' || time.length < 5 ? '#A1A1A1' : '#EDE72F',
                       marginTop: dimensions.height * 0.02,
                     }}>
                     <Text style={{
@@ -933,33 +930,27 @@ const HomeScreen = () => {
       ) : selectedScreen === 'Settings' ? (
         <SettingsScreen setSelectedScreen={setSelectedScreen} isProMatchNotific={isProMatchNotific} setIsProMatchNotific={setIsProMatchNotific}
         />
-      ) : selectedScreen === 'ProjectDetails' ? (
-        <ProjectDetailsScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen}
-          selectedProject={selectedProject} setSelectedProject={setSelectedProject}
-        />
       ) : selectedScreen === 'Focusing' ? (
-        <FocusingScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen} />
-      ) : selectedScreen === 'Analysis' ? (
-        <AnalysisScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen} />
+        <ProTeamsScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen} />
       ) : null}
 
       {selectedScreen !== 'ProjectDetails' && (
         <View
           style={{
-            position: 'absolute',
+            height: dimensions.height * 0.073,
             bottom: dimensions.height * 0.037,
             paddingHorizontal: dimensions.width * 0.01,
             backgroundColor: '#343434',
-            shadowRadius: dimensions.width * 0.03,
+            alignSelf: 'center',
             width: dimensions.width * 0.73,
-            height: dimensions.height * 0.073,
+            shadowRadius: dimensions.width * 0.03,
             paddingVertical: dimensions.height * 0.03,
             borderRadius: dimensions.width * 0.5,
-
+            
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            alignSelf: 'center',
+            position: 'absolute',
             zIndex: 5000
 
           }}
@@ -969,14 +960,14 @@ const HomeScreen = () => {
               key={index}
               onPress={() => setSelectedScreen(buttn.screen)}
               style={{
-                borderRadius: dimensions.width * 0.5,
+                width: dimensions.height * 0.07,
                 alignItems: 'center',
+                height: dimensions.height * 0.07,
                 justifyContent: 'center',
                 marginHorizontal: dimensions.width * 0.001,
                 backgroundColor: selectedScreen === buttn.screen ? 'white' : 'transparent',
                 borderRadius: dimensions.width * 0.5,
-                width: dimensions.height * 0.07,
-                height: dimensions.height * 0.07,
+                borderRadius: dimensions.width * 0.5,
               }}
             >
               <Image
@@ -1004,23 +995,23 @@ const HomeScreen = () => {
         <View style={{
           justifyContent: 'center',
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          alignItems: 'center',
           flex: 1,
+          alignItems: 'center',
         }}>
           <View style={{
-            backgroundColor: '#1f1f1f',
-            borderRadius: dimensions.width * 0.049,
-            paddingTop: dimensions.width * 0.053,
-            alignItems: 'center',
             width: dimensions.width * 0.82,
+            paddingTop: dimensions.width * 0.053,
+            backgroundColor: '#1f1f1f',
+            alignItems: 'center',
+            borderRadius: dimensions.width * 0.049,
           }}>
             <Text style={{
-              alignSelf: 'center',
-              fontSize: dimensions.width * 0.05,
+              fontWeight: 500,
               marginBottom: dimensions.height * 0.009,
               fontFamily: fontInterRegular,
               paddingHorizontal: dimensions.width * 0.06,
-              fontWeight: 500,
+              alignSelf: 'center',
+              fontSize: dimensions.width * 0.05,
               color: '#fff',
               textAlign: 'center',
             }}>
@@ -1029,21 +1020,21 @@ const HomeScreen = () => {
 
             <Text style={{
               paddingHorizontal: dimensions.width * 0.06,
-              textAlign: 'center',
-              fontFamily: fontInterRegular,
-              fontSize: dimensions.width * 0.04,
               color: '#fff',
               marginBottom: dimensions.height * 0.021,
+              fontFamily: fontInterRegular,
+              fontSize: dimensions.width * 0.04,
+              textAlign: 'center',
             }}>
               Are you sure you want to delete this task? This action cannot be undone
             </Text>
             <View style={{
-              justifyContent: 'space-between',
+              paddingHorizontal: dimensions.width * 0.03,
               width: dimensions.width * 0.82,
+              borderTopWidth: dimensions.width * 0.0019,
               flexDirection: 'row',
               borderTopColor: '#414144',
-              borderTopWidth: dimensions.width * 0.0019,
-              paddingHorizontal: dimensions.width * 0.03,
+              justifyContent: 'space-between',
             }}>
               <TouchableOpacity
                 style={{
@@ -1058,13 +1049,13 @@ const HomeScreen = () => {
                 }}
               >
                 <Text style={{
-                  fontSize: dimensions.width * 0.046,
+                  textAlign: 'center',
                   color: '#090814',
+                  fontFamily: fontInterRegular,
                   alignSelf: 'center',
                   fontWeight: 400,
                   color: '#fff',
-                  textAlign: 'center',
-                  fontFamily: fontInterRegular,
+                  fontSize: dimensions.width * 0.046,
                 }}>
                   Cancel
                 </Text>
