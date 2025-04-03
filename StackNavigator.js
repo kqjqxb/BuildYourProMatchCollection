@@ -83,7 +83,7 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName={isProMatchOnbVisible ? 'OnboardingProMatchScreen' : 'OnboardingProMatchScreen'}>
+        <Stack.Navigator initialRouteName={isProMatchOnbVisible ? 'OnboardingProMatchScreen' : 'LoadingProScreen'}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="OnboardingProMatchScreen" component={OnboardingProMatchScreen} options={{ headerShown: false }} />
           <Stack.Screen name="LoadingProScreen" component={LoadingProScreen} options={{ headerShown: false }} />
