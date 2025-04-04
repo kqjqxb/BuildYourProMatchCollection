@@ -328,9 +328,7 @@ const ProTeamsScreen = ({ selectedScreen }) => {
             justifyContent: 'flex-start',
           }}>
             <TouchableOpacity onPress={() => {
-              // setIsTeamVisible(false);
-
-              backAction();
+              setIsTeamVisible(false);
             }}>
               <Image
                 source={require('../assets/images/leftChevronImage.png')}
@@ -375,8 +373,7 @@ const ProTeamsScreen = ({ selectedScreen }) => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              // setAddMemberModalVisible(true);
-              addMemberToTeam();
+              setAddMemberModalVisible(true);
             }}
             style={{
               backgroundColor: '#EDE72F',
@@ -732,8 +729,7 @@ const ProTeamsScreen = ({ selectedScreen }) => {
             <TouchableOpacity
               disabled={teamName.replace(/\s/g, '').length === 0 || sportType.replace(/\s/g, '').length === 0}
               onPress={() => {
-                // saveTeamProMatch();
-                createTeam();
+                saveTeamProMatch();
               }}
               style={{
                 width: dimensions.width * 0.89,

@@ -274,9 +274,6 @@ const HomeScreen = () => {
                   paddingVertical: dimensions.height * 0.016,
                 }}
                 onPress={() => {
-                  if(category === 'To-Do List') {
-                    setToDoScreanVisible();
-                  }
                   setSelectedProjectCategory(`${category}`);
                 }}
               >
